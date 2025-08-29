@@ -12,76 +12,108 @@
 
 #include "get_next_line.h"
 
-char *remain(char * line)
+char *ft_rem(char *rem)
 {
-    int end;
-    int start;
+    int i = 0;
+    char *n_rem;
 
-    end = 0;
-    start = 0;
-    while(line[start] != '\n' && line[start])
-        start++;
-    end = start;
-    while(line[end])
-        end++;
-    if(line[start] == '\n')
-        start++;
-    if(line[start])
-        return(ft_substr(line, start, end - start));
-    return NULL;
+    if (!rem)
+        return NULL;
+    while(rem[i] && rem[i] != '\n')
+        i++;
+    if (rem[i] == '\n')
+        i++;
+    if(!rem[i])
+    {
+        free(rem);
+        return NULL;
+    }
+    n_rem = ft_substr(rem , i, ft_strlen(rem) - i);
+    free (rem);
+    return n_rem;
 }
 
-char *get_line(char * line)
+char *ft_line(char *rem)
 {
-    int end = 0;
+    int i = 0;
+    char *line;
 
-    while(line[end] != '\n' && line[end])
-        end++;
-    if(line[end] == '\n')
-        end++;
-    return(ft_substr(line,0,end));
+    if (!rem)
+        return NULL;
+    while(rem[i] && rem[i] != '\n')
+        i++;
+    if (rem[i] =='\n')
+        i++;
+    line = ft_substr(rem,0,i);
+    return line;
+}
+
+char *ft_read (int fd ,char *rem)
+{
+    char *buff;
+    int i;
+    
+    buff = malloc(BUFFER_SIZE+1);
+    if(!buff)
+        return NULL;
+    i = 1;
+    while((!rem || !ft_strchr(rem,'\n')) && i > 0)
+    {
+        i = read(fd,buff,BUFFER_SIZE);
+        if(i < 0)
+        {
+            free(buff);
+            free(rem);
+            return NULL;
+        }
+        buff[i] = '\0';
+        rem = ft_strjoin(rem,buff);
+    }
+    free(buff);
+    return rem;
 }
 
 char *get_next_line(int fd)
 {
-    static char *s = NULL;
-    char *buf;
-    char *line = malloc(BUFFER_SIZE + 1);
-
-    buf = malloc(BUFFER_SIZE + 1);
-    if(s)
-        line = ft_strdup(s);
-    // int i = 0;
-    while(1)
-    {
-        if(read(fd, buf, BUFFER_SIZE) == 0)
-            break ;
-        char *temp;
-        temp = ft_strjoin(line,buf);
-        free(line);
-        line = temp;
-        // printf("line_%d = %s\n",i, line );
-        if(ft_strchr(line, '\n') != NULL)
-            break;
-        // i++;
-    }
-    s = remain(line);
-    printf("s = %s\n",s);
-    return(get_line(line));
-}
-
-
-int main(void) {
-    int fd;
-
-    fd = open("file.txt", O_RDONLY);
-    if(fd == -1)
+    char *line;
+    static char *rem;
+    
+    if(fd < 0 || BUFFER_SIZE <= 0)
         return 0;
-    int i = 0;
-    while (i < 6)
+    rem = ft_read(fd,rem);
+    if (!rem)
+        return NULL;
+    line = ft_line(rem);
+    rem = ft_rem(rem);
+    if(!line[0])
     {
-        printf("the line %i = %s", i ,get_next_line(fd));
-        i++;
+        free(line);
+        return NULL;
     }
-    close(fd);
+    return line;
+    
 }
+
+// int main(void)
+// {
+//     int fd = open("file.txt", O_RDONLY);
+//     char *line;
+//     int i = 0;
+
+//     if (fd < 0)
+//     {
+//         perror("open");
+//         return 1;
+//     }
+
+//     while ((line = get_next_line(fd)))
+//     {
+//         printf("Line %d: %s", i, line); // note: line already includes '\n' if present
+//         free(line);
+//         i++;
+//     }
+
+//     close(fd);
+//     return 0;
+// }
+
