@@ -6,7 +6,7 @@
 /*   By: mnajem <mnajem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 20:26:29 by mnajem            #+#    #+#             */
-/*   Updated: 2025/08/28 20:03:52 by mnajem           ###   ########.fr       */
+/*   Updated: 2025/08/31 19:09:12 by mnajem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,40 @@
 
 char *ft_rem(char *rem)
 {
-    int i = 0;
+    int i;
     char *n_rem;
-
+    
+    i = 0;
     if (!rem)
-        return NULL;
+        return (NULL);
     while(rem[i] && rem[i] != '\n')
         i++;
     if (rem[i] == '\n')
         i++;
-    if(!rem[i])
+    if (!rem[0])
     {
         free(rem);
-        return NULL;
+        return (NULL);
     }
-    n_rem = ft_substr(rem , i, ft_strlen(rem) - i);
-    free (rem);
-    return n_rem;
+    n_rem = ft_substr(rem , i , ft_strlen(rem) - i);
+    free(rem);
+    return (n_rem);
 }
 
 char *ft_line(char *rem)
 {
-    int i = 0;
+    int i;
     char *line;
-
+    
     if (!rem)
-        return NULL;
+        return (NULL);
+    i = 0;
     while(rem[i] && rem[i] != '\n')
         i++;
-    if (rem[i] =='\n')
+    if (rem[i] == '\n')
         i++;
     line = ft_substr(rem,0,i);
-    return line;
+    return (line);
 }
 
 char *ft_read (int fd ,char *rem)
@@ -70,7 +72,7 @@ char *ft_read (int fd ,char *rem)
         rem = ft_strjoin(rem,buff);
     }
     free(buff);
-    return rem;
+    return (rem);
 }
 
 char *get_next_line(int fd)
@@ -82,38 +84,36 @@ char *get_next_line(int fd)
         return 0;
     rem = ft_read(fd,rem);
     if (!rem)
-        return NULL;
+        return (NULL);
     line = ft_line(rem);
     rem = ft_rem(rem);
     if(!line[0])
     {
         free(line);
-        return NULL;
+        return (NULL);
     }
-    return line;
-    
+    return (line);
 }
 
-// int main(void)
-// {
-//     int fd = open("file.txt", O_RDONLY);
-//     char *line;
-//     int i = 0;
+int main(void)
+{
+    int fd = open("file.txt", O_RDONLY);
+    char *line;
+    int i = 0;
 
-//     if (fd < 0)
-//     {
-//         perror("open");
-//         return 1;
-//     }
+    if (fd < 0)
+    {
+        perror("open");
+        return 1;
+    }
 
-//     while ((line = get_next_line(fd)))
-//     {
-//         printf("Line %d: %s", i, line); // note: line already includes '\n' if present
-//         free(line);
-//         i++;
-//     }
+    while ((line = get_next_line(fd)))
+    {
+        printf("Line %d: %s", i, line);
+        free(line);
+        i++;
+    }
 
-//     close(fd);
-//     return 0;
-// }
-
+    close(fd);
+    return 0;
+}

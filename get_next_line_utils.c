@@ -6,23 +6,25 @@
 /*   By: mnajem <mnajem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 20:30:28 by mnajem            #+#    #+#             */
-/*   Updated: 2025/08/28 19:45:14 by mnajem           ###   ########.fr       */
+/*   Updated: 2025/08/31 19:08:58 by mnajem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-    size_t i = 0;
-    if (!s)
-        return 0;
-    while (s[i])
-        i++;
-    return i;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
 }
 
-size_t	ft_strlcpy(char *dst,  char *src, size_t size)
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	i;
 	size_t	srclen;
@@ -40,7 +42,7 @@ size_t	ft_strlcpy(char *dst,  char *src, size_t size)
 	return (srclen);
 }
 
-char	*ft_strdup( char *s)
+char	*ft_strdup(char *s)
 {
 	size_t	i;
 	char	*dub;
@@ -80,17 +82,15 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-
-
-char	*ft_strjoin(char  *s1, char  *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	l1;
 	size_t	l2;
 	char	*ns;
 	size_t	i;
 
-	if (!s1 || !s2)
-		return (NULL);
+	// if (!s1 || !s2)
+	// 	return (NULL);
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
 	i = 0;
@@ -123,4 +123,3 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
-
