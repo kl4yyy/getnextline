@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnajem <mnajem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 20:30:28 by mnajem            #+#    #+#             */
-/*   Updated: 2025/08/28 19:45:14 by mnajem           ###   ########.fr       */
+/*   Updated: 2025/09/02 21:20:25 by mnajem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-    size_t i = 0;
-    if (!s)
-        return 0;
-    while (s[i])
-        i++;
-    return i;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
 }
 
-size_t	ft_strlcpy(char *dst,  char *src, size_t size)
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	i;
 	size_t	srclen;
@@ -40,7 +42,7 @@ size_t	ft_strlcpy(char *dst,  char *src, size_t size)
 	return (srclen);
 }
 
-char	*ft_strdup( char *s)
+char	*ft_strdup(char *s)
 {
 	size_t	i;
 	char	*dub;
@@ -80,7 +82,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ft_strjoin(char  *s1, char  *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	l1;
 	size_t	l2;
@@ -104,20 +106,6 @@ char	*ft_strjoin(char  *s1, char  *s2)
 		i++;
 	}
 	ns[i] = '\0';
-	free (s1);
+	free(s1);
 	return (ns);
 }
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (NULL);
-}
-
